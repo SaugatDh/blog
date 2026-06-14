@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'My Blog' }}</title>
     @vite(['resources/css/app.css'])
+
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 </head>
 <body class="bg-stone-50 text-stone-900 leading-relaxed">
 
@@ -63,10 +66,31 @@
 
     </main>
 <script>
-    setTimeout(() => {
-        const success = document.getElementById('flash-success');
-        const error = document.getElementById('flash-error');
+    if (document.getElementById('editor')) {
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Write your post...',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        });
 
+        // Sync to the FORM THAT CONTAINS the editor, not just any form
+        document.getElementById('editor').closest('form').addEventListener('submit', function() {
+            document.querySelector('#body').value = quill.root.innerHTML;
+        });
+    }
+
+    setTimeout(() => {
+        var success = document.getElementById('flash-success');
+        var error = document.getElementById('flash-error');
         if (success) {
             success.style.opacity = '0';
             setTimeout(() => success.remove(), 500);
@@ -77,6 +101,8 @@
         }
     }, 3000);
 </script>
+
+
 
 </body>
 </html>

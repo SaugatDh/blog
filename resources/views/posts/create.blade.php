@@ -15,13 +15,14 @@
         </div>
 
         <div class="mb-6">
-            <label for="body" class="block font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">Content</label>
-            <textarea id="body" name="body" rows="15"
-                      class="w-full px-4 py-3 border border-stone-200 rounded bg-white resize-y leading-relaxed focus:outline-none focus:border-red-700" required>{{ old('body') }}</textarea>
+            <label class="block font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">Content</label>
+            <div id="editor" style="height: 300px; background: white;">{!! old('body') !!}</div>
+            <textarea id="body" name="body" class="hidden" required>{{ old('body') }}</textarea>
             @error('body')
                 <p class="text-red-700 font-mono text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
+
 
         <div class="mb-6">
             <label class="flex items-center gap-2 cursor-pointer">

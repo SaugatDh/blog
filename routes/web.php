@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
+// use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,6 +56,16 @@ Route::middleware('admin')
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    // Comments
+    // Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+    // Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+    // Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Like
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('posts.like');
 });
 
 

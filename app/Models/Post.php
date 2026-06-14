@@ -42,8 +42,24 @@ class Post extends Model
         // we can do published() by using this. Post::published() shortcut
         return $query->where('published',true);
     }
-//$post->url 
+//$post->url
     public function getUrlAttribute():string{
         return route('posts.show',$this->slug);
+    }
+// One blog post can have many likes
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+//  Checks if a specific user already liked this post.
+    public function isLikedBy($user):bool{
+        if(!$user) return false;
+        return $this->likes()->where('user_id',$user->id)->exists();
+    }
+
+//  Returns the number of likes as a number.
+    public function likeCount(): int
+    {
+        return $this->likes()->count();
     }
 }
