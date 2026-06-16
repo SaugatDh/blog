@@ -15,6 +15,7 @@ class Post extends Model
         'title',
         'slug',
         'body',
+        'excerpt',
         'published',
     ];
     protected $casts = [

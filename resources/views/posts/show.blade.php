@@ -10,7 +10,7 @@
            {{-- {!! $post->body !!} --}}
 
         {{-- </div> --}}
-        <div class="prose prose-lg max-w-none mt-8">
+        <div class="prose prose-lg max-w-none mt-8 [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg">
             {!! $post->body !!}
         </div>
 

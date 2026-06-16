@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'My Blog' }}</title>
     @vite(['resources/css/app.css'])
@@ -74,6 +75,8 @@
                 toolbar: [
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],
+                    [{ 'align': [] }],
                     ['blockquote', 'code-block'],
                     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                     ['link', 'image'],
@@ -81,7 +84,45 @@
                 ]
             }
         });
+        // Custom image upload handler
+        quill.getModule('toolbar').addHandler('image', function () {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.click();
 
+            input.onchange = function () {
+                var file = input.files[0];
+                var formData = new FormData();
+                formData.append('image', file);
+
+                fetch('/admin/images/upload', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    var range = quill.getSelection();
+                    quill.insertEmbed(range.index, 'image', data.url);
+                });
+            };
+        });
+
+        // Custom link handler (works without selecting text)
+        quill.getModule('toolbar').addHandler('link', function () {
+            var range = quill.getSelection();
+            var url = prompt('Enter URL:');
+            if (!url) return;
+
+            if (range && range.length > 0) {
+                quill.format('link', url);
+            } else {
+                quill.insertText(range.index, url, 'link', url);
+            }
+        });
         // Sync to the FORM THAT CONTAINS the editor, not just any form
         document.getElementById('editor').closest('form').addEventListener('submit', function() {
             document.querySelector('#body').value = quill.root.innerHTML;

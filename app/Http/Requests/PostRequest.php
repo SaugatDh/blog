@@ -27,6 +27,7 @@ class PostRequest extends FormRequest
             'title'     => 'required|string|max:255',
             'body'      => 'required|string',
             'published' => 'sometimes|boolean',
+            'excerpt' => 'nullable|string|max:500',
             // 'unique:posts,slug,' . $postId becomes → 'unique:posts,slug,1'
             // SELECT COUNT(*) FROM posts WHERE slug = 'hello-world' AND id != 1
             'slug' => 'nullable|string|unique:posts,slug,' . $postId,

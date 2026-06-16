@@ -6,7 +6,13 @@
             <h2 class="text-2xl font-bold mb-2">
                 <a href="{{ $post->url }}" class="text-stone-900 no-underline hover:text-red-700">{{ $post->title }}</a>
             </h2>
-            <p class="text-stone-500">{{ Str::limit(strip_tags($post->body), 160) }}</p>
+
+            <p class="text-stone-500">{{ $post->excerpt }}</p>
+
+{{-- <p class="text-stone-500">
+    {{ Str::limit(strip_tags(preg_replace('/<h[1-6][^>]*>.*?<\/h[1-6]>/is', '', $post->body)), 160) }}
+</p>
+            <p class="text-stone-500">{{ Str::limit(strip_tags(str_replace('<', ' <', $post->body)), 160) }}</p> --}}
             {{-- <a href="{{ $post->url }}" class="inline-block mt-4 font-mono text-xs uppercase tracking-wider text-red-700 hover:text-red-900">Read article &rarr;</a> --}}
         <div class="flex justify-between items-center mt-4">
     <a href="{{ $post->url }}" class="font-mono text-xs uppercase tracking-wider text-red-700 hover:text-red-900">Read article &rarr;</a>

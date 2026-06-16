@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 // use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,7 @@ Route::middleware('admin')
 ->prefix('admin')
 ->name('admin.')
 ->group(function () {
+    Route::post('/images/upload', [ImageController::class, 'upload'])->name('images.upload');
     Route::get('/posts', [PostController::class, 'adminIndex'])->name('posts.index');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');

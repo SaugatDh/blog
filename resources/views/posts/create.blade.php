@@ -15,9 +15,15 @@
         </div>
 
         <div class="mb-6">
+            <label class="block font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">Excerpt</label>
+            <textarea name="excerpt" rows="3" class="w-full border border-stone-200 rounded px-4 py-3 text-stone-900 focus:outline-none focus:border-red-700">{{ old('excerpt', $post->excerpt ?? '') }}</textarea>
+        </div>
+
+
+        <div class="mb-6">
             <label class="block font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">Content</label>
             <div id="editor" style="height: 300px; background: white;">{!! old('body') !!}</div>
-            <textarea id="body" name="body" class="hidden" required>{{ old('body') }}</textarea>
+            <textarea id="body" name="body" class="hidden" >{{ old('body') }}</textarea>
             @error('body')
                 <p class="text-red-700 font-mono text-xs mt-1">{{ $message }}</p>
             @enderror
